@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PauseWell — Partner View</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #faf5ff; color: #1a1a1a; min-height: 100vh; }
+  header { background: linear-gradient(135deg, #3b0764, #7c3aed); padding: 32px 24px 24px; }
+  header h1 { color: white; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  header p { color: rgba(255,255,255,0.8); font-size: 14px; }
+  .container { max-width: 520px; margin: 0 auto; padding: 24px 16px; }
+  .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card-title { font-size: 13px; font-weight: 600; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .stage-badge { display: inline-block; background: #f3e8ff; color: #4c1d95; padding: 8px 16px; border-radius: 20px; font-size: 15px; font-weight: 600; }
+  .symptom-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+  .symptom-row:last-child { border-bottom: none; }
+  .symptom-name { flex: 1; font-size: 15px; color: #374151; }
+  .severity-bar-wrap { width: 80px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+  .severity-bar { height: 100%; border-radius: 3px; }
+  .severity-num { font-size: 13px; color: #6b7280; width: 32px; text-align: right; }
+  .tip-row { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+  .tip-row:last-child { border-bottom: none; }
+  .tip-emoji { font-size: 24px; flex-shrink: 0; }
+  .tip-text { font-size: 14px; color: #374151; line-height: 1.5; }
+  .tip-title { font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+  .loading { text-align: center; padding: 60px 24px; color: #6b7280; }
+  .error { text-align: center; padding: 60px 24px; }
+  .error h2 { color: #dc2626; margin-bottom: 8px; }
+  .trend { display: flex; align-items: center; gap: 8px; }
+  .trend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .updated { font-size: 12px; color: #9ca3af; margin-top: 8px; }
+  .name-line { font-size: 22px; font-weight: 700; color: white; margin-bottom: 4px; }
+  footer { text-align: center; padding: 24px; font-size: 12px; color: #9ca3af; }
+  footer a { color: #7c3aed; }
+  .how-section { background: #f3e8ff; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .how-title { font-size: 18px; font-weight: 700; color: #3b0764; margin-bottom: 4px; }
+  .how-sub { font-size: 13px; color: #6b21a8; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading">
+  <p>🌸 Loading...</p>
+</div>
+
+<div id="error" class="error" style="display:none">
+  <h2>Link not found</h2>
+  <p>This partner link may have expired or been removed.</p>
+</div>
+
+<div id="app" style="display:none">
+  <header>
+    <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:8px">Supporting</p>
+    <div class="name-line" id="partner-name">Your partner</div>
+    <p id="partner-stage" style="color:rgba(255,255,255,0.85);font-size:14px"></p>
+  </header>
+
+  <div class="container">
+    <!-- This week -->
+    <div class="card">
+      <div class="card-title">This week's top symptoms</div>
+      <div id="symptoms-list"></div>
+      <p class="updated" id="last-updated"></p>
+    </div>
+
+    <!-- How to support -->
+    <div class="how-section">
+      <div class="how-title">💜 How to show up for her</div>
+      <div class="how-sub">Evidence-based ways to support someone in this transition</div>
+      <div id="tips-list"></div>
+    </div>
+
+    <!-- What is this -->
+    <div class="card">
+      <div class="card-title">Understanding her journey</div>
+      <div id="stage-explainer"></div>
+    </div>
+
+    <!-- Do & don't -->
+    <div class="card">
+      <div class="card-title">What helps vs. what doesn't</div>
+      <div class="tip-row">
+        <div class="tip-emoji">✅</div>
+        <div class="tip-text"><div class="tip-title">Ask how she's feeling — and really listen</div>Menopause symptoms are invisible. Asking shows you see her experience.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-emoji">✅</div>
+        <div class="tip-text"><div class="tip-title">Adjust the thermostat without being asked</div>Hot flashes are real and unpredictable. A cooler environment helps.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-emoji">✅</div>
+        <div class="tip-text"><div class="tip-title">Take on more when she's having a hard day</div>Fatigue and brain fog are real symptoms, not excuses.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-emoji">❌</div>
+        <div class="tip-text"><div class="tip-title">Don't dismiss symptoms as "just hormones"</div>These are real physiological changes affecting her quality of life.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-emoji">❌</div>
+        <div class="tip-text"><div class="tip-title">Don't take mood changes personally</div>Hormonal fluctuations affect mood regulation — it's not about you.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-emoji">❌</div>
+        <div class="tip-text"><div class="tip-title">Don't suggest she "push through" poor sleep</div>Sleep disruption has real health consequences. Rest is medicine.</div>
+      </div>
+    </div>
+
+    <footer>
+      Powered by <a href="https://pausewell.net">PauseWell</a> · Chronos AI<br>
+      This view updates automatically as symptoms are logged.
+    </footer>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://azenjofsnqrpppcqouwo.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6ZW5qb2ZzbnFycHBwY3FvdXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NjE2OTgsImV4cCI6MjA5MTMzNzY5OH0.aMlKKkKH2613e5mvJZDGHddicdZnigVocMOHDSyvJRk';
+
+const SYMPTOM_LABELS = {
+  hot_flashes: 'Hot flashes', night_sweats: 'Night sweats',
+  sleep_disruption: 'Sleep issues', sleep_quality: 'Sleep issues',
+  mood_swings: 'Mood swings', anxiety: 'Anxiety', brain_fog: 'Brain fog',
+  fatigue: 'Fatigue', joint_pain: 'Joint pain', headaches: 'Headaches',
+  heart_palpitations: 'Palpitations', depression: 'Low mood',
+};
+
+const STAGE_INFO = {
+  pre: { label: 'Pre-menopause', desc: 'Her cycles are regular but hormonal changes may be beginning. She may notice subtle shifts in mood, energy, or sleep.' },
+  peri_early: { label: 'Early perimenopause', desc: 'Her hormones are beginning to fluctuate significantly. Cycles may become irregular. Hot flashes, sleep changes, and mood shifts are common.' },
+  peri_late: { label: 'Late perimenopause', desc: 'Periods are becoming infrequent. Symptoms are often at their most intense during this phase. Her body is in significant transition.' },
+  menopause: { label: 'Menopause', desc: 'She has reached 12 months without a period. This marks a significant milestone. Many symptoms continue but patterns may be changing.' },
+  post: { label: 'Post-menopause', desc: 'The transition is complete. Some symptoms continue as her body adjusts to new hormonal baselines. She is building a new normal.' },
+};
+
+const TIPS_BY_SYMPTOM = {
+  hot_flashes: { emoji: '🌡️', title: 'She may be experiencing hot flashes', tip: 'Keep spaces cool, have a fan available, and avoid commenting on temperature changes. A cold drink or cool cloth can help.' },
+  sleep_disruption: { emoji: '🌙', title: 'Sleep is being disrupted', tip: 'Be extra patient in the mornings. Night sweats can mean multiple wake-ups. Consider separate bedding if needed.' },
+  mood_swings: { emoji: '💜', title: 'Mood is fluctuating', tip: 'Don\'t take it personally. Offer presence without pressure. Ask "what do you need right now?" rather than trying to fix things.' },
+  brain_fog: { emoji: '🧠', title: 'Cognitive clarity may be affected', tip: 'Be patient with forgetfulness. Help with reminders and lists. Avoid pointing out memory lapses in front of others.' },
+  fatigue: { emoji: '😴', title: 'Energy levels may be low', tip: 'Take on extra tasks without being asked. Protect her rest time. Plan lower-energy activities during difficult periods.' },
+  anxiety: { emoji: '😰', title: 'Anxiety may be elevated', tip: 'Create calm environments. Avoid springing surprises. Check in regularly and validate that her feelings make sense.' },
+  joint_pain: { emoji: '🦴', title: 'Physical discomfort may be present', tip: 'Offer to help with physical tasks. Warm baths or heating pads can help. Be gentle with physical affection on hard days.' },
+};
+
+function getSeverityColor(s) {
+  if (s <= 3) return '#4ade80';
+  if (s <= 6) return '#fbbf24';
+  return '#f87171';
+}
+
+async function load() {
+  const token = new URLSearchParams(window.location.search).get('token');
+  if (!token) { showError(); return; }
+
+  try {
+    // Fetch partner token
+    const tokenRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_partner_tokens?token=eq.${token}&select=*`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+    });
+    const tokens = await tokenRes.json();
+    if (!tokens.length) { showError(); return; }
+
+    const { user_id, partner_name } = tokens[0];
+
+    // Fetch profile
+    const profileRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_user_profiles?id=eq.${user_id}&select=full_name,menopause_stage`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+    });
+    const profiles = await profileRes.json();
+    const profile = profiles[0];
+
+    // Fetch last 7 days symptoms
+    const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const symptomsRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_symptom_logs?user_id=eq.${user_id}&logged_at=gte.${since}&select=symptom_id,severity,logged_at`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+    });
+    const symptoms = await symptomsRes.json();
+
+    // Render
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    const firstName = profile?.full_name?.split(' ')[0] || 'Your partner';
+    document.getElementById('partner-name').textContent = firstName;
+
+    const stageInfo = STAGE_INFO[profile?.menopause_stage] || STAGE_INFO.peri_early;
+    document.getElementById('partner-stage').textContent = stageInfo.label;
+    document.getElementById('stage-explainer').innerHTML = `<p style="font-size:15px;color:#374151;line-height:1.6">${stageInfo.desc}</p>`;
+
+    // Top symptoms
+    const counts = {};
+    const severities = {};
+    symptoms.forEach(s => {
+      counts[s.symptom_id] = (counts[s.symptom_id] || 0) + 1;
+      if (!severities[s.symptom_id]) severities[s.symptom_id] = [];
+      severities[s.symptom_id].push(s.severity);
+    });
+
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+    if (top.length === 0) {
+      document.getElementById('symptoms-list').innerHTML = '<p style="color:#9ca3af;font-size:14px">No symptoms logged this week.</p>';
+    } else {
+      document.getElementById('symptoms-list').innerHTML = top.map(([id, count]) => {
+        const avgSev = severities[id].reduce((s, v) => s + v, 0) / severities[id].length;
+        const pct = (avgSev / 10) * 100;
+        return `<div class="symptom-row">
+          <div class="symptom-name">${SYMPTOM_LABELS[id] || id}</div>
+          <div class="severity-bar-wrap"><div class="severity-bar" style="width:${pct}%;background:${getSeverityColor(avgSev)}"></div></div>
+          <div class="severity-num">${avgSev.toFixed(1)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Tips based on top symptoms
+    const tipsHtml = top.slice(0, 3).map(([id]) => {
+      const tip = TIPS_BY_SYMPTOM[id];
+      if (!tip) return '';
+      return `<div class="tip-row">
+        <div class="tip-emoji">${tip.emoji}</div>
+        <div class="tip-text"><div class="tip-title">${tip.title}</div>${tip.tip}</div>
+      </div>`;
+    }).filter(Boolean).join('');
+    document.getElementById('tips-list').innerHTML = tipsHtml || '<p style="font-size:14px;color:#6b7280">Keep checking back as more symptoms are logged.</p>';
+
+    document.getElementById('last-updated').textContent = `Updated ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' })}`;
+
+  } catch (e) {
+    console.error(e);
+    showError();
+  }
+}
+
+function showError() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('error').style.display = 'block';
+}
+
+load();
+</script>
+</body>
+</html>
