@@ -5,239 +5,115 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PauseWell — Partner View</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #faf5ff; color: #1a1a1a; min-height: 100vh; }
-  header { background: linear-gradient(135deg, #3b0764, #7c3aed); padding: 32px 24px 24px; }
-  header h1 { color: white; font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-  header p { color: rgba(255,255,255,0.8); font-size: 14px; }
-  .container { max-width: 520px; margin: 0 auto; padding: 24px 16px; }
-  .card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-  .card-title { font-size: 13px; font-weight: 600; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-  .stage-badge { display: inline-block; background: #f3e8ff; color: #4c1d95; padding: 8px 16px; border-radius: 20px; font-size: 15px; font-weight: 600; }
-  .symptom-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
-  .symptom-row:last-child { border-bottom: none; }
-  .symptom-name { flex: 1; font-size: 15px; color: #374151; }
-  .severity-bar-wrap { width: 80px; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-  .severity-bar { height: 100%; border-radius: 3px; }
-  .severity-num { font-size: 13px; color: #6b7280; width: 32px; text-align: right; }
-  .tip-row { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
-  .tip-row:last-child { border-bottom: none; }
-  .tip-emoji { font-size: 24px; flex-shrink: 0; }
-  .tip-text { font-size: 14px; color: #374151; line-height: 1.5; }
-  .tip-title { font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
-  .loading { text-align: center; padding: 60px 24px; color: #6b7280; }
-  .error { text-align: center; padding: 60px 24px; }
-  .error h2 { color: #dc2626; margin-bottom: 8px; }
-  .trend { display: flex; align-items: center; gap: 8px; }
-  .trend-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .updated { font-size: 12px; color: #9ca3af; margin-top: 8px; }
-  .name-line { font-size: 22px; font-weight: 700; color: white; margin-bottom: 4px; }
-  footer { text-align: center; padding: 24px; font-size: 12px; color: #9ca3af; }
-  footer a { color: #7c3aed; }
-  .how-section { background: #f3e8ff; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
-  .how-title { font-size: 18px; font-weight: 700; color: #3b0764; margin-bottom: 4px; }
-  .how-sub { font-size: 13px; color: #6b21a8; margin-bottom: 16px; }
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#fbf7f1;color:#302738;min-height:100vh}
+header{background:linear-gradient(135deg,#4d2c55,#76527d);padding:30px 24px 24px}.container{max-width:560px;margin:0 auto;padding:22px 16px}
+header .eyebrow{color:rgba(255,255,255,.72);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px}.name-line{font-family:Georgia,"Times New Roman",serif;font-size:27px;color:#fff;margin-bottom:5px}header p{color:rgba(255,255,255,.86);margin:0}
+.card,.how-section{background:#fffdf9;border:1px solid #eadfe9;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 5px 20px rgba(65,40,70,.05)}
+.how-section{background:#f4edf5}.card-title,.how-title{font-family:Georgia,"Times New Roman",serif;font-size:20px;color:#5d3765;margin-bottom:8px}.how-sub{font-size:13px;color:#756a79;margin-bottom:15px}
+.symptom-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #eee7ee}.symptom-row:last-child,.tip-row:last-child{border-bottom:none}
+.symptom-name{flex:1;font-size:15px}.severity-bar-wrap{width:80px;height:6px;background:#e7dfe8;border-radius:3px;overflow:hidden}.severity-bar{height:100%;border-radius:3px}.severity-num{font-size:13px;color:#756a79;width:32px;text-align:right}
+.tip-row{padding:12px 0;border-bottom:1px solid #eee7ee}.tip-title{font-weight:650;color:#4d2c55;margin-bottom:3px}.tip-text{font-size:14px;line-height:1.55;color:#4c4350}
+.loading,.error{text-align:center;padding:70px 24px;color:#756a79}.error h2{color:#5d3765}.updated{font-size:12px;color:#948a96;margin-top:10px}
+.controls{max-width:560px;margin:12px auto 0;padding:0 16px;display:flex;justify-content:flex-end}.controls select{border:1px solid #d8c8dc;background:#fff;border-radius:10px;padding:8px 10px;color:#302738}
+footer{text-align:center;padding:24px;font-size:12px;color:#948a96}footer a{color:#5d3765}
+[dir="rtl"] body{font-family:Arial,"Noto Sans Arabic",sans-serif}[dir="rtl"] .severity-num{text-align:left}
 </style>
 </head>
 <body>
-
-<div id="loading" class="loading">
-  <p>🌸 Loading...</p>
-</div>
-
-<div id="error" class="error" style="display:none">
-  <h2>Link not found</h2>
-  <p>This partner link may have expired or been removed.</p>
-</div>
-
+<div class="controls"><select id="lang" aria-label="Language"></select></div>
+<div id="loading" class="loading"><p id="loading-text"></p></div>
+<div id="error" class="error" style="display:none"><h2 id="error-title"></h2><p id="error-body"></p></div>
 <div id="app" style="display:none">
-  <header>
-    <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:8px">Supporting</p>
-    <div class="name-line" id="partner-name">Your partner</div>
-    <p id="partner-stage" style="color:rgba(255,255,255,0.85);font-size:14px"></p>
-  </header>
-
-  <div class="container">
-    <!-- This week -->
-    <div class="card">
-      <div class="card-title">This week's top symptoms</div>
-      <div id="symptoms-list"></div>
-      <p class="updated" id="last-updated"></p>
-    </div>
-
-    <!-- How to support -->
-    <div class="how-section">
-      <div class="how-title">💜 How to show up for her</div>
-      <div class="how-sub">Evidence-based ways to support someone in this transition</div>
-      <div id="tips-list"></div>
-    </div>
-
-    <!-- What is this -->
-    <div class="card">
-      <div class="card-title">Understanding her journey</div>
-      <div id="stage-explainer"></div>
-    </div>
-
-    <!-- Do & don't -->
-    <div class="card">
-      <div class="card-title">What helps vs. what doesn't</div>
-      <div class="tip-row">
-        <div class="tip-emoji">✅</div>
-        <div class="tip-text"><div class="tip-title">Ask how she's feeling — and really listen</div>Menopause symptoms are invisible. Asking shows you see her experience.</div>
-      </div>
-      <div class="tip-row">
-        <div class="tip-emoji">✅</div>
-        <div class="tip-text"><div class="tip-title">Adjust the thermostat without being asked</div>Hot flashes are real and unpredictable. A cooler environment helps.</div>
-      </div>
-      <div class="tip-row">
-        <div class="tip-emoji">✅</div>
-        <div class="tip-text"><div class="tip-title">Take on more when she's having a hard day</div>Fatigue and brain fog are real symptoms, not excuses.</div>
-      </div>
-      <div class="tip-row">
-        <div class="tip-emoji">❌</div>
-        <div class="tip-text"><div class="tip-title">Don't dismiss symptoms as "just hormones"</div>These are real physiological changes affecting her quality of life.</div>
-      </div>
-      <div class="tip-row">
-        <div class="tip-emoji">❌</div>
-        <div class="tip-text"><div class="tip-title">Don't take mood changes personally</div>Hormonal fluctuations affect mood regulation — it's not about you.</div>
-      </div>
-      <div class="tip-row">
-        <div class="tip-emoji">❌</div>
-        <div class="tip-text"><div class="tip-title">Don't suggest she "push through" poor sleep</div>Sleep disruption has real health consequences. Rest is medicine.</div>
-      </div>
-    </div>
-
-    <footer>
-      Powered by <a href="https://pausewell.net">PauseWell</a> · Chronos AI<br>
-      This view updates automatically as symptoms are logged.
-    </footer>
-  </div>
-</div>
-
+<header><div class="eyebrow" id="supporting"></div><div class="name-line" id="partner-name"></div><p id="partner-stage"></p></header>
+<div class="container">
+<div class="card"><div class="card-title" id="symptoms-title"></div><div id="symptoms-list"></div><p class="updated" id="last-updated"></p></div>
+<div class="how-section"><div class="how-title" id="support-title"></div><div class="how-sub" id="support-sub"></div><div id="tips-list"></div></div>
+<div class="card"><div class="card-title" id="journey-title"></div><div id="stage-explainer"></div></div>
+<div class="card"><div class="card-title" id="helps-title"></div><div id="helps-list"></div></div>
+<footer><span id="powered"></span> <a href="https://pausewell.net">PauseWell</a> · Chronos AI<br><span id="auto-update"></span></footer>
+</div></div>
 <script>
 const SUPABASE_URL = 'https://azenjofsnqrpppcqouwo.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6ZW5qb2ZzbnFycHBwY3FvdXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3NjE2OTgsImV4cCI6MjA5MTMzNzY5OH0.aMlKKkKH2613e5mvJZDGHddicdZnigVocMOHDSyvJRk';
-
-const SYMPTOM_LABELS = {
-  hot_flashes: 'Hot flashes', night_sweats: 'Night sweats',
-  sleep_disruption: 'Sleep issues', sleep_quality: 'Sleep issues',
-  mood_swings: 'Mood swings', anxiety: 'Anxiety', brain_fog: 'Brain fog',
-  fatigue: 'Fatigue', joint_pain: 'Joint pain', headaches: 'Headaches',
-  heart_palpitations: 'Palpitations', depression: 'Low mood',
+const LANGS=['en','es','fr','pt','de','ja','ko','ar'];
+const NAMES={en:'English',es:'Español',fr:'Français',pt:'Português',de:'Deutsch',ja:'日本語',ko:'한국어',ar:'العربية'};
+const L={
+en:{loading:'Loading…',errorTitle:'Link not found',errorBody:'This partner link may have expired or been removed.',supporting:'Supporting',partner:'Your partner',symptoms:"This week's top symptoms",supportTitle:'How to show up for her',supportSub:'Evidence-based ways to support someone in this transition',journey:'Understanding her journey',helps:"What helps vs. what doesn't",none:'No symptoms logged this week.',more:'Keep checking back as more symptoms are logged.',updated:'Updated',powered:'Powered by',auto:'This view updates automatically as symptoms are logged.'},
+es:{loading:'Cargando…',errorTitle:'Enlace no encontrado',errorBody:'Este enlace para la pareja puede haber caducado o haber sido eliminado.',supporting:'Apoyando a',partner:'Tu pareja',symptoms:'Principales síntomas de esta semana',supportTitle:'Cómo acompañarla',supportSub:'Formas basadas en evidencia de apoyar a alguien durante esta transición',journey:'Comprender su proceso',helps:'Lo que ayuda y lo que no',none:'No se registraron síntomas esta semana.',more:'Vuelve a consultar a medida que se registren más síntomas.',updated:'Actualizado',powered:'Desarrollado por',auto:'Esta vista se actualiza automáticamente a medida que se registran síntomas.'},
+fr:{loading:'Chargement…',errorTitle:'Lien introuvable',errorBody:'Ce lien partenaire a peut-être expiré ou été supprimé.',supporting:'Soutenir',partner:'Votre partenaire',symptoms:'Principaux symptômes de cette semaine',supportTitle:'Comment être présente pour elle',supportSub:'Des façons fondées sur des données probantes de soutenir une personne pendant cette transition',journey:'Comprendre son parcours',helps:'Ce qui aide et ce qui n’aide pas',none:'Aucun symptôme enregistré cette semaine.',more:'Revenez à mesure que d’autres symptômes sont enregistrés.',updated:'Mis à jour',powered:'Propulsé par',auto:'Cette vue se met automatiquement à jour à mesure que les symptômes sont enregistrés.'},
+pt:{loading:'Carregando…',errorTitle:'Link não encontrado',errorBody:'Este link do parceiro pode ter expirado ou sido removido.',supporting:'Apoiando',partner:'Sua parceira',symptoms:'Principais sintomas desta semana',supportTitle:'Como estar presente para ela',supportSub:'Formas baseadas em evidências de apoiar alguém durante esta transição',journey:'Entendendo a jornada dela',helps:'O que ajuda e o que não ajuda',none:'Nenhum sintoma registrado nesta semana.',more:'Volte à medida que mais sintomas forem registrados.',updated:'Atualizado',powered:'Desenvolvido por',auto:'Esta visualização é atualizada automaticamente conforme os sintomas são registrados.'},
+de:{loading:'Wird geladen…',errorTitle:'Link nicht gefunden',errorBody:'Dieser Partner-Link ist möglicherweise abgelaufen oder wurde entfernt.',supporting:'Unterstützung für',partner:'Deine Partnerin',symptoms:'Häufigste Symptome dieser Woche',supportTitle:'Wie du für sie da sein kannst',supportSub:'Evidenzbasierte Möglichkeiten, jemanden in dieser Übergangsphase zu unterstützen',journey:'Ihre Veränderung verstehen',helps:'Was hilft und was nicht',none:'Diese Woche wurden keine Symptome protokolliert.',more:'Schau wieder vorbei, wenn weitere Symptome protokolliert wurden.',updated:'Aktualisiert',powered:'Bereitgestellt von',auto:'Diese Ansicht wird automatisch aktualisiert, wenn Symptome protokolliert werden.'},
+ja:{loading:'読み込み中…',errorTitle:'リンクが見つかりません',errorBody:'このパートナーリンクは期限切れまたは削除された可能性があります。',supporting:'サポート中',partner:'あなたのパートナー',symptoms:'今週の主な症状',supportTitle:'彼女を支えるためにできること',supportSub:'この移行期にいる人を支えるための根拠に基づく方法',journey:'彼女の変化を理解する',helps:'役立つこと・避けたいこと',none:'今週記録された症状はありません。',more:'症状が記録されると、ここに情報が表示されます。',updated:'更新',powered:'提供',auto:'症状が記録されると、この画面は自動的に更新されます。'},
+ko:{loading:'불러오는 중…',errorTitle:'링크를 찾을 수 없습니다',errorBody:'이 파트너 링크가 만료되었거나 삭제되었을 수 있습니다.',supporting:'함께하는 사람',partner:'파트너',symptoms:'이번 주 주요 증상',supportTitle:'곁에서 도울 수 있는 방법',supportSub:'이 전환기를 겪는 사람을 돕기 위한 근거 기반 방법',journey:'그녀의 변화를 이해하기',helps:'도움이 되는 것과 그렇지 않은 것',none:'이번 주에 기록된 증상이 없습니다.',more:'증상이 더 기록되면 이곳에서 확인할 수 있습니다.',updated:'업데이트',powered:'제공',auto:'증상이 기록되면 이 화면이 자동으로 업데이트됩니다.'},
+ar:{loading:'جارٍ التحميل…',errorTitle:'لم يتم العثور على الرابط',errorBody:'قد تكون صلاحية رابط الشريك قد انتهت أو تمت إزالته.',supporting:'دعم',partner:'شريكتك',symptoms:'أبرز أعراض هذا الأسبوع',supportTitle:'كيف تكون حاضرًا لدعمها',supportSub:'طرق قائمة على الأدلة لدعم شخص خلال هذه المرحلة الانتقالية',journey:'فهم رحلتها',helps:'ما يساعد وما لا يساعد',none:'لم يتم تسجيل أعراض هذا الأسبوع.',more:'تحقق مرة أخرى مع تسجيل المزيد من الأعراض.',updated:'تم التحديث',powered:'بدعم من',auto:'يتم تحديث هذه الصفحة تلقائيًا عند تسجيل الأعراض.'}
 };
-
-const STAGE_INFO = {
-  pre: { label: 'Pre-menopause', desc: 'Her cycles are regular but hormonal changes may be beginning. She may notice subtle shifts in mood, energy, or sleep.' },
-  peri_early: { label: 'Early perimenopause', desc: 'Her hormones are beginning to fluctuate significantly. Cycles may become irregular. Hot flashes, sleep changes, and mood shifts are common.' },
-  peri_late: { label: 'Late perimenopause', desc: 'Periods are becoming infrequent. Symptoms are often at their most intense during this phase. Her body is in significant transition.' },
-  menopause: { label: 'Menopause', desc: 'She has reached 12 months without a period. This marks a significant milestone. Many symptoms continue but patterns may be changing.' },
-  post: { label: 'Post-menopause', desc: 'The transition is complete. Some symptoms continue as her body adjusts to new hormonal baselines. She is building a new normal.' },
+const SYM={
+en:{hot_flashes:'Hot flashes',night_sweats:'Night sweats',sleep_disruption:'Sleep issues',sleep_quality:'Sleep issues',mood_swings:'Mood swings',anxiety:'Anxiety',brain_fog:'Brain fog',fatigue:'Fatigue',joint_pain:'Joint pain',headaches:'Headaches',heart_palpitations:'Palpitations',depression:'Low mood'},
+es:{hot_flashes:'Sofocos',night_sweats:'Sudores nocturnos',sleep_disruption:'Problemas de sueño',sleep_quality:'Problemas de sueño',mood_swings:'Cambios de ánimo',anxiety:'Ansiedad',brain_fog:'Niebla mental',fatigue:'Fatiga',joint_pain:'Dolor articular',headaches:'Dolores de cabeza',heart_palpitations:'Palpitaciones',depression:'Ánimo bajo'},
+fr:{hot_flashes:'Bouffées de chaleur',night_sweats:'Sueurs nocturnes',sleep_disruption:'Troubles du sommeil',sleep_quality:'Troubles du sommeil',mood_swings:"Variations d’humeur",anxiety:'Anxiété',brain_fog:'Brouillard mental',fatigue:'Fatigue',joint_pain:'Douleurs articulaires',headaches:'Maux de tête',heart_palpitations:'Palpitations',depression:'Baisse de moral'},
+pt:{hot_flashes:'Ondas de calor',night_sweats:'Suores noturnos',sleep_disruption:'Problemas de sono',sleep_quality:'Problemas de sono',mood_swings:'Oscilações de humor',anxiety:'Ansiedade',brain_fog:'Névoa mental',fatigue:'Fadiga',joint_pain:'Dor nas articulações',headaches:'Dores de cabeça',heart_palpitations:'Palpitações',depression:'Humor deprimido'},
+de:{hot_flashes:'Hitzewallungen',night_sweats:'Nachtschweiß',sleep_disruption:'Schlafprobleme',sleep_quality:'Schlafprobleme',mood_swings:'Stimmungsschwankungen',anxiety:'Angst',brain_fog:'Brain Fog',fatigue:'Erschöpfung',joint_pain:'Gelenkschmerzen',headaches:'Kopfschmerzen',heart_palpitations:'Herzklopfen',depression:'Gedrückte Stimmung'},
+ja:{hot_flashes:'ほてり',night_sweats:'寝汗',sleep_disruption:'睡眠の問題',sleep_quality:'睡眠の問題',mood_swings:'気分の変化',anxiety:'不安',brain_fog:'ブレインフォグ',fatigue:'疲労',joint_pain:'関節痛',headaches:'頭痛',heart_palpitations:'動悸',depression:'気分の落ち込み'},
+ko:{hot_flashes:'안면홍조',night_sweats:'야간 발한',sleep_disruption:'수면 문제',sleep_quality:'수면 문제',mood_swings:'기분 변화',anxiety:'불안',brain_fog:'브레인 포그',fatigue:'피로',joint_pain:'관절 통증',headaches:'두통',heart_palpitations:'두근거림',depression:'기분 저하'},
+ar:{hot_flashes:'الهبّات الساخنة',night_sweats:'التعرق الليلي',sleep_disruption:'مشكلات النوم',sleep_quality:'مشكلات النوم',mood_swings:'تقلبات المزاج',anxiety:'القلق',brain_fog:'ضبابية التفكير',fatigue:'الإرهاق',joint_pain:'آلام المفاصل',headaches:'الصداع',heart_palpitations:'خفقان القلب',depression:'انخفاض المزاج'}
 };
-
-const TIPS_BY_SYMPTOM = {
-  hot_flashes: { emoji: '🌡️', title: 'She may be experiencing hot flashes', tip: 'Keep spaces cool, have a fan available, and avoid commenting on temperature changes. A cold drink or cool cloth can help.' },
-  sleep_disruption: { emoji: '🌙', title: 'Sleep is being disrupted', tip: 'Be extra patient in the mornings. Night sweats can mean multiple wake-ups. Consider separate bedding if needed.' },
-  mood_swings: { emoji: '💜', title: 'Mood is fluctuating', tip: 'Don\'t take it personally. Offer presence without pressure. Ask "what do you need right now?" rather than trying to fix things.' },
-  brain_fog: { emoji: '🧠', title: 'Cognitive clarity may be affected', tip: 'Be patient with forgetfulness. Help with reminders and lists. Avoid pointing out memory lapses in front of others.' },
-  fatigue: { emoji: '😴', title: 'Energy levels may be low', tip: 'Take on extra tasks without being asked. Protect her rest time. Plan lower-energy activities during difficult periods.' },
-  anxiety: { emoji: '😰', title: 'Anxiety may be elevated', tip: 'Create calm environments. Avoid springing surprises. Check in regularly and validate that her feelings make sense.' },
-  joint_pain: { emoji: '🦴', title: 'Physical discomfort may be present', tip: 'Offer to help with physical tasks. Warm baths or heating pads can help. Be gentle with physical affection on hard days.' },
+const STAGES={
+en:{pre:['Pre-menopause','Her cycles are regular but hormonal changes may be beginning. She may notice subtle shifts in mood, energy, or sleep.'],peri_early:['Early perimenopause','Her hormones are beginning to fluctuate significantly. Cycles may become irregular. Hot flashes, sleep changes, and mood shifts are common.'],peri_late:['Late perimenopause','Periods are becoming infrequent. Symptoms are often at their most intense during this phase. Her body is in significant transition.'],menopause:['Menopause','She has reached 12 months without a period. This marks a significant milestone. Many symptoms continue but patterns may be changing.'],post:['Post-menopause','The transition is complete. Some symptoms continue as her body adjusts to new hormonal baselines. She is building a new normal.']},
+es:{pre:['Premenopausia','Sus ciclos son regulares, aunque pueden estar comenzando cambios hormonales. Puede notar cambios sutiles en el ánimo, la energía o el sueño.'],peri_early:['Perimenopausia temprana','Sus hormonas empiezan a fluctuar de forma importante. Los ciclos pueden volverse irregulares y son comunes los sofocos y los cambios en el sueño y el ánimo.'],peri_late:['Perimenopausia tardía','Los periodos se vuelven menos frecuentes. Los síntomas suelen ser más intensos durante esta etapa de transición.'],menopause:['Menopausia','Ha llegado a 12 meses sin menstruación. Muchos síntomas pueden continuar, aunque sus patrones pueden cambiar.'],post:['Posmenopausia','La transición se ha completado. Algunos síntomas pueden continuar mientras su cuerpo se adapta a nuevos niveles hormonales.']},
+fr:{pre:['Préménopause','Ses cycles sont réguliers, mais des changements hormonaux peuvent commencer. Elle peut remarquer de légers changements d’humeur, d’énergie ou de sommeil.'],peri_early:['Périménopause précoce','Ses hormones commencent à fluctuer de façon importante. Les cycles peuvent devenir irréguliers; bouffées de chaleur et changements du sommeil ou de l’humeur sont fréquents.'],peri_late:['Périménopause tardive','Les règles deviennent moins fréquentes. Les symptômes sont souvent plus intenses pendant cette phase de transition.'],menopause:['Ménopause','Elle a atteint 12 mois sans règles. De nombreux symptômes peuvent continuer, mais leurs tendances peuvent changer.'],post:['Postménopause','La transition est terminée. Certains symptômes peuvent persister pendant que son corps s’adapte à de nouveaux équilibres hormonaux.']},
+pt:{pre:['Pré-menopausa','Os ciclos são regulares, mas mudanças hormonais podem estar começando. Ela pode perceber mudanças sutis no humor, na energia ou no sono.'],peri_early:['Perimenopausa inicial','Os hormônios começam a oscilar de forma significativa. Os ciclos podem ficar irregulares; ondas de calor e mudanças no sono e no humor são comuns.'],peri_late:['Perimenopausa tardia','As menstruações ficam menos frequentes. Os sintomas costumam ser mais intensos durante esta fase de transição.'],menopause:['Menopausa','Ela chegou a 12 meses sem menstruar. Muitos sintomas podem continuar, embora os padrões possam mudar.'],post:['Pós-menopausa','A transição foi concluída. Alguns sintomas podem continuar enquanto o corpo se adapta a novos níveis hormonais.']},
+de:{pre:['Prämenopause','Ihre Zyklen sind regelmäßig, hormonelle Veränderungen können jedoch beginnen. Sie kann leichte Veränderungen bei Stimmung, Energie oder Schlaf bemerken.'],peri_early:['Frühe Perimenopause','Ihre Hormone beginnen deutlich zu schwanken. Zyklen können unregelmäßig werden; Hitzewallungen sowie Schlaf- und Stimmungsschwankungen sind häufig.'],peri_late:['Späte Perimenopause','Die Perioden werden seltener. In dieser Übergangsphase sind Symptome häufig besonders intensiv.'],menopause:['Menopause','Sie hat 12 Monate ohne Periode erreicht. Viele Symptome können fortbestehen, ihre Muster können sich jedoch verändern.'],post:['Postmenopause','Der Übergang ist abgeschlossen. Einige Symptome können anhalten, während sich ihr Körper an neue hormonelle Ausgangswerte anpasst.']},
+ja:{pre:['閉経前','周期は規則的でも、ホルモンの変化が始まっている可能性があります。気分、エネルギー、睡眠に小さな変化が現れることがあります。'],peri_early:['更年期移行期前半','ホルモンの変動が大きくなり始めます。周期が不規則になり、ほてり、睡眠や気分の変化がよく見られます。'],peri_late:['更年期移行期後半','月経の頻度が減っていきます。この移行期には症状が強くなることがあります。'],menopause:['閉経','月経がない状態が12か月続いた段階です。症状が続くこともありますが、そのパターンは変化することがあります。'],post:['閉経後','移行は完了しています。身体が新しいホルモン状態に適応する間、一部の症状が続くことがあります。']},
+ko:{pre:['폐경 전','주기는 규칙적이지만 호르몬 변화가 시작될 수 있습니다. 기분, 에너지 또는 수면의 미묘한 변화를 느낄 수 있습니다.'],peri_early:['초기 폐경 이행기','호르몬 변동이 커지기 시작합니다. 주기가 불규칙해질 수 있으며 안면홍조, 수면 변화, 기분 변화가 흔합니다.'],peri_late:['후기 폐경 이행기','생리 간격이 길어집니다. 이 전환기에는 증상이 가장 강하게 나타날 수 있습니다.'],menopause:['폐경','12개월 동안 생리가 없는 상태에 도달했습니다. 여러 증상이 계속될 수 있지만 양상은 달라질 수 있습니다.'],post:['폐경 후','전환이 완료되었습니다. 몸이 새로운 호르몬 기준에 적응하는 동안 일부 증상이 지속될 수 있습니다.']},
+ar:{pre:['ما قبل انقطاع الطمث','تكون الدورات منتظمة، لكن قد تبدأ التغيرات الهرمونية. وقد تلاحظ تغيرات طفيفة في المزاج أو الطاقة أو النوم.'],peri_early:['بداية مرحلة ما قبل انقطاع الطمث','تبدأ الهرمونات بالتقلب بشكل ملحوظ. وقد تصبح الدورات غير منتظمة، وتشيع الهبّات الساخنة وتغيرات النوم والمزاج.'],peri_late:['المرحلة المتأخرة قبل انقطاع الطمث','تصبح الدورة أقل تكرارًا، وغالبًا ما تكون الأعراض أكثر شدة خلال هذه المرحلة الانتقالية.'],menopause:['انقطاع الطمث','مرّ 12 شهرًا دون دورة شهرية. قد تستمر أعراض كثيرة، لكن أنماطها قد تتغير.'],post:['ما بعد انقطاع الطمث','اكتملت المرحلة الانتقالية. قد تستمر بعض الأعراض بينما يتكيف الجسم مع مستويات هرمونية جديدة.']}
 };
-
-function getSeverityColor(s) {
-  if (s <= 3) return '#4ade80';
-  if (s <= 6) return '#fbbf24';
-  return '#f87171';
-}
-
-async function load() {
-  const token = new URLSearchParams(window.location.search).get('token');
-  if (!token) { showError(); return; }
-
-  try {
-    // Fetch partner token
-    const tokenRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_partner_tokens?token=eq.${token}&select=*`, {
-      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
-    });
-    const tokens = await tokenRes.json();
-    if (!tokens.length) { showError(); return; }
-
-    const { user_id, partner_name } = tokens[0];
-
-    // Fetch profile
-    const profileRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_user_profiles?id=eq.${user_id}&select=full_name,menopause_stage`, {
-      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
-    });
-    const profiles = await profileRes.json();
-    const profile = profiles[0];
-
-    // Fetch last 7 days symptoms
-    const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    const symptomsRes = await fetch(`${SUPABASE_URL}/rest/v1/pw_symptom_logs?user_id=eq.${user_id}&logged_at=gte.${since}&select=symptom_id,severity,logged_at`, {
-      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
-    });
-    const symptoms = await symptomsRes.json();
-
-    // Render
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-
-    const firstName = profile?.full_name?.split(' ')[0] || 'Your partner';
-    document.getElementById('partner-name').textContent = firstName;
-
-    const stageInfo = STAGE_INFO[profile?.menopause_stage] || STAGE_INFO.peri_early;
-    document.getElementById('partner-stage').textContent = stageInfo.label;
-    document.getElementById('stage-explainer').innerHTML = `<p style="font-size:15px;color:#374151;line-height:1.6">${stageInfo.desc}</p>`;
-
-    // Top symptoms
-    const counts = {};
-    const severities = {};
-    symptoms.forEach(s => {
-      counts[s.symptom_id] = (counts[s.symptom_id] || 0) + 1;
-      if (!severities[s.symptom_id]) severities[s.symptom_id] = [];
-      severities[s.symptom_id].push(s.severity);
-    });
-
-    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-    if (top.length === 0) {
-      document.getElementById('symptoms-list').innerHTML = '<p style="color:#9ca3af;font-size:14px">No symptoms logged this week.</p>';
-    } else {
-      document.getElementById('symptoms-list').innerHTML = top.map(([id, count]) => {
-        const avgSev = severities[id].reduce((s, v) => s + v, 0) / severities[id].length;
-        const pct = (avgSev / 10) * 100;
-        return `<div class="symptom-row">
-          <div class="symptom-name">${SYMPTOM_LABELS[id] || id}</div>
-          <div class="severity-bar-wrap"><div class="severity-bar" style="width:${pct}%;background:${getSeverityColor(avgSev)}"></div></div>
-          <div class="severity-num">${avgSev.toFixed(1)}</div>
-        </div>`;
-      }).join('');
-    }
-
-    // Tips based on top symptoms
-    const tipsHtml = top.slice(0, 3).map(([id]) => {
-      const tip = TIPS_BY_SYMPTOM[id];
-      if (!tip) return '';
-      return `<div class="tip-row">
-        <div class="tip-emoji">${tip.emoji}</div>
-        <div class="tip-text"><div class="tip-title">${tip.title}</div>${tip.tip}</div>
-      </div>`;
-    }).filter(Boolean).join('');
-    document.getElementById('tips-list').innerHTML = tipsHtml || '<p style="font-size:14px;color:#6b7280">Keep checking back as more symptoms are logged.</p>';
-
-    document.getElementById('last-updated').textContent = `Updated ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' })}`;
-
-  } catch (e) {
-    console.error(e);
-    showError();
-  }
-}
-
-function showError() {
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('error').style.display = 'block';
-}
-
+const HELP={
+en:[['Ask how she’s feeling — and really listen','Menopause symptoms can be invisible. Asking shows you see her experience.'],['Adjust the thermostat without being asked','Hot flashes are real and unpredictable. A cooler environment can help.'],['Take on more when she’s having a hard day','Fatigue and brain fog are real symptoms, not excuses.'],['Don’t dismiss symptoms as “just hormones”','These are real physiological changes that can affect quality of life.'],['Don’t take mood changes personally','Hormonal fluctuations can affect mood regulation.'],['Don’t suggest she “push through” poor sleep','Sleep disruption can have real health consequences. Rest matters.']],
+es:[['Pregunta cómo se siente y escucha de verdad','Los síntomas pueden ser invisibles. Preguntar demuestra que reconoces su experiencia.'],['Ajusta la temperatura sin que tenga que pedirlo','Los sofocos son reales e impredecibles. Un ambiente más fresco puede ayudar.'],['Asume más tareas en los días difíciles','La fatiga y la niebla mental son síntomas reales.'],['No minimices los síntomas como “solo hormonas”','Son cambios fisiológicos reales que pueden afectar la calidad de vida.'],['No tomes los cambios de ánimo como algo personal','Las fluctuaciones hormonales pueden afectar la regulación del ánimo.'],['No le sugieras que simplemente aguante la falta de sueño','La alteración del sueño puede tener consecuencias reales para la salud. Descansar importa.']],
+fr:[['Demandez-lui comment elle se sent et écoutez vraiment','Les symptômes peuvent être invisibles. Demander montre que vous reconnaissez son expérience.'],['Réglez la température sans attendre qu’elle le demande','Les bouffées de chaleur sont réelles et imprévisibles. Un environnement plus frais peut aider.'],['Prenez davantage en charge les jours difficiles','La fatigue et le brouillard mental sont de vrais symptômes.'],['Ne réduisez pas ses symptômes à « seulement les hormones »','Ce sont de véritables changements physiologiques qui peuvent affecter la qualité de vie.'],['Ne prenez pas personnellement les changements d’humeur','Les fluctuations hormonales peuvent affecter la régulation de l’humeur.'],['Ne lui conseillez pas de simplement tenir malgré un mauvais sommeil','Les troubles du sommeil peuvent avoir de réelles conséquences sur la santé. Le repos compte.']],
+pt:[['Pergunte como ela está se sentindo e realmente escute','Os sintomas podem ser invisíveis. Perguntar mostra que você reconhece a experiência dela.'],['Ajuste a temperatura sem ela precisar pedir','Ondas de calor são reais e imprevisíveis. Um ambiente mais fresco pode ajudar.'],['Assuma mais tarefas nos dias difíceis','Fadiga e névoa mental são sintomas reais.'],['Não minimize os sintomas como “apenas hormônios”','São mudanças fisiológicas reais que podem afetar a qualidade de vida.'],['Não leve as mudanças de humor para o lado pessoal','As oscilações hormonais podem afetar a regulação do humor.'],['Não sugira que ela simplesmente aguente uma noite mal dormida','A interrupção do sono pode ter consequências reais para a saúde. O descanso importa.']],
+de:[['Frag, wie es ihr geht, und hör wirklich zu','Symptome können unsichtbar sein. Nachzufragen zeigt, dass du ihre Erfahrung wahrnimmst.'],['Passe die Raumtemperatur an, ohne dass sie fragen muss','Hitzewallungen sind real und unvorhersehbar. Eine kühlere Umgebung kann helfen.'],['Übernimm an schwierigen Tagen mehr','Erschöpfung und Brain Fog sind echte Symptome.'],['Tu Symptome nicht als „nur Hormone“ ab','Es sind reale physiologische Veränderungen, die die Lebensqualität beeinflussen können.'],['Nimm Stimmungsschwankungen nicht persönlich','Hormonelle Schwankungen können die Stimmungsregulation beeinflussen.'],['Sag ihr nicht, sie solle schlechten Schlaf einfach „durchstehen“','Schlafstörungen können echte gesundheitliche Folgen haben. Erholung ist wichtig.']],
+ja:[['気分を尋ね、しっかり耳を傾ける','症状は外から見えないことがあります。尋ねることで、その経験を理解しようとしていることが伝わります。'],['頼まれる前に室温を調整する','ほてりは現実の症状で予測できません。涼しい環境が役立つことがあります。'],['つらい日は多めに役割を引き受ける','疲労やブレインフォグは実際に起こる症状です。'],['「ホルモンのせいだけ」と片づけない','生活の質に影響し得る実際の身体的変化です。'],['気分の変化を個人的に受け取らない','ホルモンの変動は気分の調整に影響することがあります。'],['睡眠不足を「我慢して乗り切る」よう勧めない','睡眠の乱れは健康に影響することがあります。休息は大切です。']],
+ko:[['어떻게 느끼는지 묻고 진심으로 들어 주세요','증상은 겉으로 보이지 않을 수 있습니다. 물어보는 것은 그녀의 경험을 인정한다는 뜻입니다.'],['요청하기 전에 실내 온도를 조절해 주세요','안면홍조는 실제적이고 예측하기 어렵습니다. 시원한 환경이 도움이 될 수 있습니다.'],['힘든 날에는 더 많은 일을 맡아 주세요','피로와 브레인 포그는 실제 증상입니다.'],['증상을 “그냥 호르몬 때문”이라고 넘기지 마세요','삶의 질에 영향을 줄 수 있는 실제 생리적 변화입니다.'],['기분 변화를 개인적으로 받아들이지 마세요','호르몬 변동은 기분 조절에 영향을 줄 수 있습니다.'],['잠을 못 잤을 때 그냥 버티라고 하지 마세요','수면 장애는 건강에 실제 영향을 줄 수 있습니다. 휴식은 중요합니다.']],
+ar:[['اسألها عن شعورها واستمع إليها باهتمام','قد تكون الأعراض غير مرئية. السؤال يُظهر أنك ترى تجربتها وتحترمها.'],['اضبط درجة الحرارة دون انتظار أن تطلب ذلك','الهبّات الساخنة حقيقية وغير متوقعة. وقد تساعد البيئة الأكثر برودة.'],['تحمّل مزيدًا من المهام في الأيام الصعبة','الإرهاق وضبابية التفكير أعراض حقيقية.'],['لا تقلل من الأعراض باعتبارها “مجرد هرمونات”','هذه تغيرات فسيولوجية حقيقية قد تؤثر في جودة الحياة.'],['لا تأخذ تغيرات المزاج بشكل شخصي','قد تؤثر التقلبات الهرمونية في تنظيم المزاج.'],['لا تطلب منها أن “تتحمل” قلة النوم','اضطراب النوم قد تكون له آثار صحية حقيقية. الراحة مهمة.']]
+};
+const TIP={
+en:{hot_flashes:['She may be experiencing hot flashes','Keep spaces cool, have a fan available, and offer a cold drink or cool cloth.'],sleep_disruption:['Sleep may be disrupted','Be extra patient after difficult nights and help protect time for rest.'],mood_swings:['Mood may be fluctuating','Offer presence without pressure. Ask what she needs rather than trying to fix everything.'],brain_fog:['Cognitive clarity may be affected','Be patient with forgetfulness and help with reminders or lists when useful.'],fatigue:['Energy levels may be low','Take on extra tasks when you can and protect time for rest.'],anxiety:['Anxiety may be elevated','Create calm environments, avoid unnecessary surprises, and check in gently.'],joint_pain:['Physical discomfort may be present','Offer help with physical tasks and be mindful that comfort needs may change.']},
+es:{hot_flashes:['Puede estar teniendo sofocos','Mantén los espacios frescos, ten un ventilador disponible y ofrece una bebida fría o un paño fresco.'],sleep_disruption:['El sueño puede estar interrumpido','Ten más paciencia después de noches difíciles y ayuda a proteger su tiempo de descanso.'],mood_swings:['El ánimo puede estar fluctuando','Acompaña sin presionar. Pregunta qué necesita en lugar de intentar solucionarlo todo.'],brain_fog:['La claridad mental puede verse afectada','Ten paciencia con los olvidos y ayuda con recordatorios o listas cuando sea útil.'],fatigue:['La energía puede estar baja','Asume tareas adicionales cuando puedas y protege su tiempo de descanso.'],anxiety:['La ansiedad puede estar elevada','Crea ambientes tranquilos, evita sorpresas innecesarias y pregúntale con suavidad cómo está.'],joint_pain:['Puede haber molestias físicas','Ofrece ayuda con tareas físicas y ten en cuenta que sus necesidades de comodidad pueden cambiar.']},
+fr:{hot_flashes:['Elle peut avoir des bouffées de chaleur','Gardez les espaces frais, prévoyez un ventilateur et proposez une boisson fraîche ou un linge frais.'],sleep_disruption:['Son sommeil peut être perturbé','Soyez particulièrement patient après les nuits difficiles et aidez à préserver du temps de repos.'],mood_swings:['Son humeur peut fluctuer','Soyez présent sans pression. Demandez ce dont elle a besoin plutôt que de vouloir tout résoudre.'],brain_fog:['Sa clarté mentale peut être affectée','Soyez patient face aux oublis et aidez avec des rappels ou des listes si cela lui est utile.'],fatigue:['Son niveau d’énergie peut être bas','Prenez en charge des tâches supplémentaires lorsque vous le pouvez et protégez son temps de repos.'],anxiety:['Son anxiété peut être plus élevée','Créez un environnement calme, évitez les surprises inutiles et prenez régulièrement de ses nouvelles.'],joint_pain:['Un inconfort physique peut être présent','Proposez votre aide pour les tâches physiques et gardez à l’esprit que ses besoins de confort peuvent changer.']},
+pt:{hot_flashes:['Ela pode estar tendo ondas de calor','Mantenha os ambientes frescos, deixe um ventilador disponível e ofereça uma bebida gelada ou pano fresco.'],sleep_disruption:['O sono pode estar sendo interrompido','Tenha mais paciência após noites difíceis e ajude a proteger o tempo de descanso.'],mood_swings:['O humor pode estar oscilando','Esteja presente sem pressionar. Pergunte do que ela precisa em vez de tentar resolver tudo.'],brain_fog:['A clareza mental pode ser afetada','Tenha paciência com esquecimentos e ajude com lembretes ou listas quando for útil.'],fatigue:['A energia pode estar baixa','Assuma tarefas extras quando puder e proteja o tempo de descanso.'],anxiety:['A ansiedade pode estar elevada','Crie ambientes tranquilos, evite surpresas desnecessárias e faça check-ins com delicadeza.'],joint_pain:['Pode haver desconforto físico','Ofereça ajuda com tarefas físicas e lembre-se de que as necessidades de conforto podem mudar.']},
+de:{hot_flashes:['Sie könnte Hitzewallungen haben','Halte Räume kühl, stelle einen Ventilator bereit und biete ein kaltes Getränk oder ein kühles Tuch an.'],sleep_disruption:['Ihr Schlaf könnte gestört sein','Sei nach schwierigen Nächten besonders geduldig und hilf, Ruhezeiten zu schützen.'],mood_swings:['Ihre Stimmung könnte schwanken','Sei da, ohne Druck auszuüben. Frag, was sie braucht, statt alles lösen zu wollen.'],brain_fog:['Die geistige Klarheit könnte beeinträchtigt sein','Sei geduldig bei Vergesslichkeit und hilf bei Bedarf mit Erinnerungen oder Listen.'],fatigue:['Ihr Energieniveau könnte niedrig sein','Übernimm zusätzliche Aufgaben, wenn du kannst, und schütze ihre Ruhezeit.'],anxiety:['Angst könnte verstärkt sein','Schaffe eine ruhige Umgebung, vermeide unnötige Überraschungen und frag behutsam nach.'],joint_pain:['Körperliche Beschwerden könnten vorhanden sein','Biete Hilfe bei körperlichen Aufgaben an und beachte, dass sich ihr Komfortbedürfnis verändern kann.']},
+ja:{hot_flashes:['ほてりが起きている可能性があります','室内を涼しく保ち、扇風機や冷たい飲み物、冷たいタオルを用意すると役立つことがあります。'],sleep_disruption:['睡眠が乱れている可能性があります','眠れなかった夜の後は特に辛抱強く接し、休息の時間を確保できるよう支えてください。'],mood_swings:['気分が変動している可能性があります','プレッシャーをかけずに寄り添い、解決しようとする前に何が必要か尋ねてください。'],brain_fog:['思考の明瞭さに影響が出ている可能性があります','物忘れに辛抱強く接し、必要に応じてリマインダーやリストを手伝ってください。'],fatigue:['エネルギーが低下している可能性があります','できる範囲で役割を引き受け、休息の時間を守ってください。'],anxiety:['不安が高まっている可能性があります','落ち着ける環境をつくり、不必要な驚きを避け、やさしく様子を確認してください。'],joint_pain:['身体的な不快感がある可能性があります','身体を使う作業を手伝い、快適さのニーズが変わることに配慮してください。']},
+ko:{hot_flashes:['안면홍조를 겪고 있을 수 있습니다','공간을 시원하게 유지하고 선풍기, 차가운 음료 또는 시원한 수건을 준비해 주세요.'],sleep_disruption:['수면이 방해받고 있을 수 있습니다','힘든 밤을 보낸 뒤에는 더 인내심을 갖고 휴식 시간을 지킬 수 있도록 도와주세요.'],mood_swings:['기분이 변동하고 있을 수 있습니다','압박하지 말고 곁에 있어 주세요. 모든 것을 해결하려 하기보다 무엇이 필요한지 물어보세요.'],brain_fog:['인지적 명료함이 영향을 받을 수 있습니다','깜빡하는 일에 인내심을 갖고 필요할 때 알림이나 목록을 도와주세요.'],fatigue:['에너지 수준이 낮을 수 있습니다','가능할 때 추가 일을 맡고 휴식 시간을 지켜 주세요.'],anxiety:['불안이 높아질 수 있습니다','차분한 환경을 만들고 불필요한 놀라움을 피하며 부드럽게 안부를 물어보세요.'],joint_pain:['신체적 불편감이 있을 수 있습니다','신체 활동이 필요한 일을 도와주고 편안함에 대한 필요가 달라질 수 있음을 배려해 주세요.']},
+ar:{hot_flashes:['قد تكون تعاني من الهبّات الساخنة','حافظ على برودة المكان، ووفّر مروحة، واعرض مشروبًا باردًا أو قطعة قماش باردة.'],sleep_disruption:['قد يكون نومها متقطعًا','كن أكثر صبرًا بعد الليالي الصعبة وساعد في حماية وقت الراحة.'],mood_swings:['قد يكون مزاجها متقلبًا','كن حاضرًا دون ضغط. اسألها عما تحتاجه بدلًا من محاولة إصلاح كل شيء.'],brain_fog:['قد يتأثر صفاء التفكير','تحلَّ بالصبر مع النسيان وساعد بالتذكيرات أو القوائم عند الحاجة.'],fatigue:['قد يكون مستوى الطاقة منخفضًا','تولَّ بعض المهام الإضافية عندما تستطيع وساعد في حماية وقت الراحة.'],anxiety:['قد يكون القلق مرتفعًا','وفّر بيئة هادئة وتجنب المفاجآت غير الضرورية واطمئن عليها بلطف.'],joint_pain:['قد يوجد انزعاج جسدي','اعرض المساعدة في المهام البدنية وراعِ أن احتياجات الراحة قد تتغير.']}
+};
+const params=new URLSearchParams(location.search);let lang=params.get('lang')||'en';if(!LANGS.includes(lang))lang='en';
+const sel=document.getElementById('lang');LANGS.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=NAMES[x];sel.appendChild(o)});sel.value=lang;
+function applyLanguage(){const x=L[lang];document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.getElementById('loading-text').textContent=x.loading;document.getElementById('error-title').textContent=x.errorTitle;document.getElementById('error-body').textContent=x.errorBody;document.getElementById('supporting').textContent=x.supporting;document.getElementById('symptoms-title').textContent=x.symptoms;document.getElementById('support-title').textContent=x.supportTitle;document.getElementById('support-sub').textContent=x.supportSub;document.getElementById('journey-title').textContent=x.journey;document.getElementById('helps-title').textContent=x.helps;document.getElementById('powered').textContent=x.powered;document.getElementById('auto-update').textContent=x.auto}
+sel.addEventListener('change',()=>{params.set('lang',sel.value);location.search=params.toString()});applyLanguage();
+function getSeverityColor(s){if(s<=3)return'#79a783';if(s<=6)return'#c6a15b';return'#a96972'}
+function showError(){document.getElementById('loading').style.display='none';document.getElementById('error').style.display='block'}
+async function load(){
+const token=params.get('token');if(!token){showError();return}
+try{
+const tokenRes=await fetch(`${SUPABASE_URL}/rest/v1/pw_partner_tokens?token=eq.${token}&select=*`,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+const tokens=await tokenRes.json();if(!tokens.length){showError();return}
+const{user_id,partner_name}=tokens[0];
+const profileRes=await fetch(`${SUPABASE_URL}/rest/v1/pw_user_profiles?id=eq.${user_id}&select=full_name,menopause_stage`,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+const profiles=await profileRes.json();const profile=profiles[0];
+const since=new Date(Date.now()-7*24*60*60*1000).toISOString();
+const symptomsRes=await fetch(`${SUPABASE_URL}/rest/v1/pw_symptom_logs?user_id=eq.${user_id}&logged_at=gte.${since}&select=symptom_id,severity,logged_at`,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+const symptoms=await symptomsRes.json();
+document.getElementById('loading').style.display='none';document.getElementById('app').style.display='block';
+const firstName=profile?.full_name?.split(' ')[0]||L[lang].partner;document.getElementById('partner-name').textContent=firstName;
+const st=(STAGES[lang]&&STAGES[lang][profile?.menopause_stage])||STAGES[lang].peri_early;document.getElementById('partner-stage').textContent=st[0];document.getElementById('stage-explainer').innerHTML=`<p style="font-size:15px;line-height:1.65">${st[1]}</p>`;
+const counts={},severities={};symptoms.forEach(x=>{counts[x.symptom_id]=(counts[x.symptom_id]||0)+1;(severities[x.symptom_id]??=[]).push(x.severity)});
+const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+document.getElementById('symptoms-list').innerHTML=top.length?top.map(([id])=>{const avg=severities[id].reduce((a,b)=>a+b,0)/severities[id].length;return`<div class="symptom-row"><div class="symptom-name">${SYM[lang][id]||id.replaceAll('_',' ')}</div><div class="severity-bar-wrap"><div class="severity-bar" style="width:${avg*10}%;background:${getSeverityColor(avg)}"></div></div><div class="severity-num">${avg.toFixed(1)}</div></div>`}).join(''):`<p>${L[lang].none}</p>`;
+const tips=top.slice(0,3).map(([id])=>TIP[lang][id]).filter(Boolean);document.getElementById('tips-list').innerHTML=tips.length?tips.map(t=>`<div class="tip-row"><div class="tip-text"><div class="tip-title">${t[0]}</div>${t[1]}</div></div>`).join(''):`<p>${L[lang].more}</p>`;
+document.getElementById('helps-list').innerHTML=HELP[lang].map(t=>`<div class="tip-row"><div class="tip-text"><div class="tip-title">${t[0]}</div>${t[1]}</div></div>`).join('');
+const locale={en:'en-US',es:'es',fr:'fr',pt:'pt-BR',de:'de-DE',ja:'ja-JP',ko:'ko-KR',ar:'ar'}[lang];document.getElementById('last-updated').textContent=`${L[lang].updated} ${new Intl.DateTimeFormat(locale,{month:'long',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date())}`;
+}catch(e){console.error(e);showError()}}
 load();
 </script>
 </body>
